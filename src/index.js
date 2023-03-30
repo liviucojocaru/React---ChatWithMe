@@ -21,8 +21,8 @@ function App() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const locationData = await axios.get("/api/location");
-    const country = locationData.data.location;
+    const countryData = await axios.get("https://ipgeolocation.abstractapi.com/v1/?api_key=API_KEY");
+    const country = countryData.data.country;
 
     await axios.post("/api/users", {
       name,
@@ -37,40 +37,35 @@ function App() {
   };
 
   return (
-    <div className="container">
+    <div className="App">
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="name">Name:</label>
-          <input type="text" className="form-control" id="name" value={name} onChange={handleNameChange} />
-        </div>
-        <div className="form-group">
-          <label htmlFor="age">Age:</label>
-          <select className="form-control" id="age" value={age} onChange={handleAgeChange}>
-            <option value="">Select Age</option>
-            {[...Array(82)].map((_, i) => (
+        <label>
+          Name:
+          <input type="text" value={name} onChange={handleNameChange} required />
+        </label>
+        <br />
+        <label>
+          Age:
+          <select value={age} onChange={handleAgeChange} required>
+            <option value="" disabled>Select your age</option>
+            {[...Array(82)].map((x, i) => (
               <option key={i} value={i + 18}>
                 {i + 18}
               </option>
             ))}
           </select>
-        </div>
-        <div className="form-group">
-          <label>Sex:</label>
-          <div>
-            <div className="form-check form-check-inline">
-              <input className="form-check-input" type="radio" name="sex" value="male" checked={sex === "male"} onChange={handleSexChange} />
-              <label className="form-check-label">Male</label>
-            </div>
-            <div className="form-check form-check-inline">
-              <input className="form-check-input" type="radio" name="sex" value="female" checked={sex === "female"} onChange={handleSexChange} />
-              <label className="form-check-label">Female</label>
-            </div>
-          </div>
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Start
-        </button>
+        </label>
+        <br />
+        <label>
+          Sex:
+          <input type="radio" value="male" checked={sex === "male"} onChange={handleSexChange} />
+          Male
+          <input type="radio" value="female" checked={sex === "female"} onChange={handleSexChange} />
+          Female
+        </label>
+        <br />
+        <button type="submit">Start</button>
       </form>
     </div>
   );
