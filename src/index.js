@@ -1,71 +1,90 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState } from 'react';
 
 function App() {
-  const [name, setName] = useState("");
-  const [age, setAge] = useState(18);
-  const [sex, setSex] = useState("");
+  const [name, setName] = useState('');
+  const [age, setAge] = useState('');
+  const [gender, setGender] = useState('');
 
-  const handleNameChange = (event) => {
-    setName(event.target.value);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(name, age, gender);
+    setName('');
+    setAge('');
+    setGender('');
   };
 
-  const handleAgeChange = (event) => {
-    setAge(event.target.value);
+  const handleNameChange = (e) => {
+    setName(e.target.value);
   };
 
-  const handleSexChange = (event) => {
-    setSex(event.target.value);
+  const handleAgeChange = (e) => {
+    const ageInput = parseInt(e.target.value);
+    if (ageInput < 18) {
+      setAge(18);
+    } else if (ageInput > 99) {
+      setAge(99);
+    } else {
+      setAge(ageInput);
+    }
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    const locationData = await axios.get("/api/location");
-    const country = locationData.data.location;
-
-    await axios.post("/api/users", {
-      name,
-      age,
-      sex,
-      country,
-    });
-
-    setName("");
-    setAge(18);
-    setSex("");
+  const handleGenderChange = (e) => {
+    setGender(e.target.value);
   };
-
-  const ageOptions = [];
-  for (let i = 18; i < 100; i++) {
-    ageOptions.push(<option key={i} value={i}>{i}</option>);
-  }
 
   return (
-    <div className="App">
-      <h1>Sign Up</h1>
+    <div>
       <form onSubmit={handleSubmit}>
-        <label>
-          Name:
-          <input type="text" value={name} onChange={handleNameChange} />
-        </label>
-        <br />
-        <label>
-          Age:
-          <select value={age} onChange={handleAgeChange}>
-            {ageOptions}
-          </select>
-        </label>
-        <br />
-        <label>
-          Sex:
-          <input type="radio" value="male" checked={sex === "male"} onChange={handleSexChange} />
-          Male
-          <input type="radio" value="female" checked={sex === "female"} onChange={handleSexChange} />
-          Female
-        </label>
-        <br />
-        <button type="submit">Sign Up</button>
+        <div>
+          <label htmlFor="name">Name:</label>
+          <input
+            type="text"
+            id="name"
+            value={name}
+            onChange={handleNameChange}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="age">Age:</label>
+          <input
+            type="number"
+            id="age"
+            value={age}
+            onChange={handleAgeChange}
+            min={18}
+            max={99}
+            required
+          />
+        </div>
+        <div>
+          <label>Gender:</label>
+          <div>
+            <input
+              type="radio"
+              id="male"
+              name="gender"
+              value="male"
+              checked={gender === 'male'}
+              onChange={handleGenderChange}
+              required
+            />
+            <label htmlFor="male">Male</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              id="female"
+              name="gender"
+              value="female"
+              checked={gender === 'female'}
+              onChange={handleGenderChange}
+              required
+            />
+            <label htmlFor="female">Female</label>
+          </div>
+        </div>
+        <button type="submit">Start</button>
       </form>
     </div>
   );
