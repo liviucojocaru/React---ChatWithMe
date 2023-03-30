@@ -36,6 +36,15 @@ function App() {
     setSex("");
   };
 
+  const ageOptions = [];
+  for (let i = 18; i <= 99; i++) {
+    ageOptions.push(
+      <option value={i} key={i}>
+        {i}
+      </option>
+    );
+  }
+
   return (
     <div className="App">
       <h1>Sign Up</h1>
@@ -47,7 +56,10 @@ function App() {
         <br />
         <label>
           Age:
-          <input type="number" min="18" max="99" value={age} onChange={handleAgeChange} />
+          <select value={age} onChange={handleAgeChange}>
+            <option value="">Select Age</option>
+            {ageOptions}
+          </select>
         </label>
         <br />
         <label>
