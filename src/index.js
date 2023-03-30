@@ -36,41 +36,41 @@ function App() {
     setSex("");
   };
 
-  const ageOptions = [];
-  for (let i = 18; i <= 99; i++) {
-    ageOptions.push(
-      <option value={i} key={i}>
-        {i}
-      </option>
-    );
-  }
-
   return (
-    <div className="App">
+    <div className="container">
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit}>
-        <label>
-          Name:
-          <input type="text" value={name} onChange={handleNameChange} />
-        </label>
-        <br />
-        <label>
-          Age:
-          <select value={age} onChange={handleAgeChange}>
+        <div className="form-group">
+          <label htmlFor="name">Name:</label>
+          <input type="text" className="form-control" id="name" value={name} onChange={handleNameChange} />
+        </div>
+        <div className="form-group">
+          <label htmlFor="age">Age:</label>
+          <select className="form-control" id="age" value={age} onChange={handleAgeChange}>
             <option value="">Select Age</option>
-            {ageOptions}
+            {[...Array(82)].map((_, i) => (
+              <option key={i} value={i + 18}>
+                {i + 18}
+              </option>
+            ))}
           </select>
-        </label>
-        <br />
-        <label>
-          Sex:
-          <input type="radio" value="male" checked={sex === "male"} onChange={handleSexChange} />
-          Male
-          <input type="radio" value="female" checked={sex === "female"} onChange={handleSexChange} />
-          Female
-        </label>
-        <br />
-        <button type="submit">Sign Up</button>
+        </div>
+        <div className="form-group">
+          <label>Sex:</label>
+          <div>
+            <div className="form-check form-check-inline">
+              <input className="form-check-input" type="radio" name="sex" value="male" checked={sex === "male"} onChange={handleSexChange} />
+              <label className="form-check-label">Male</label>
+            </div>
+            <div className="form-check form-check-inline">
+              <input className="form-check-input" type="radio" name="sex" value="female" checked={sex === "female"} onChange={handleSexChange} />
+              <label className="form-check-label">Female</label>
+            </div>
+          </div>
+        </div>
+        <button type="submit" className="btn btn-primary">
+          Start
+        </button>
       </form>
     </div>
   );
