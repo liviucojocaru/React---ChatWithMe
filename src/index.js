@@ -3,7 +3,7 @@ import axios from "axios";
 
 function App() {
   const [name, setName] = useState("");
-  const [age, setAge] = useState("");
+  const [age, setAge] = useState(18);
   const [sex, setSex] = useState("");
 
   const handleNameChange = (event) => {
@@ -21,8 +21,8 @@ function App() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const countryData = await axios.get("https://ipgeolocation.abstractapi.com/v1/?api_key=API_KEY");
-    const country = countryData.data.country;
+    const locationData = await axios.get("/api/location");
+    const country = locationData.data.location;
 
     await axios.post("/api/users", {
       name,
@@ -32,9 +32,14 @@ function App() {
     });
 
     setName("");
-    setAge("");
+    setAge(18);
     setSex("");
   };
+
+  const ageOptions = [];
+  for (let i = 18; i < 100; i++) {
+    ageOptions.push(<option key={i} value={i}>{i}</option>);
+  }
 
   return (
     <div className="App">
@@ -42,18 +47,13 @@ function App() {
       <form onSubmit={handleSubmit}>
         <label>
           Name:
-          <input type="text" value={name} onChange={handleNameChange} required />
+          <input type="text" value={name} onChange={handleNameChange} />
         </label>
         <br />
         <label>
           Age:
-          <select value={age} onChange={handleAgeChange} required>
-            <option value="" disabled>Select your age</option>
-            {[...Array(82)].map((x, i) => (
-              <option key={i} value={i + 18}>
-                {i + 18}
-              </option>
-            ))}
+          <select value={age} onChange={handleAgeChange}>
+            {ageOptions}
           </select>
         </label>
         <br />
@@ -65,7 +65,7 @@ function App() {
           Female
         </label>
         <br />
-        <button type="submit">Start</button>
+        <button type="submit">Sign Up</button>
       </form>
     </div>
   );
