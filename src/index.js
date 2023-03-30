@@ -3,7 +3,7 @@ import axios from "axios";
 
 function App() {
   const [name, setName] = useState("");
-  const [age, setAge] = useState("18");
+  const [age, setAge] = useState("");
   const [sex, setSex] = useState("");
 
   const handleNameChange = (event) => {
@@ -38,7 +38,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Sign Ups</h1>
+      <h1>Sign Up</h1>
       <form onSubmit={handleSubmit}>
         <label>
           Name:
@@ -47,24 +47,18 @@ function App() {
         <br />
         <label>
           Age:
-          <select value={age} onChange={handleAgeChange}>
-            {Array.from({ length: 82 }, (_, i) => 18 + i).map((value) => (
-              <option key={value} value={value}>
-                {value}
-              </option>
-            ))}
-          </select>
+          <input type="number" min="18" max="99" value={age} onChange={handleAgeChange} />
         </label>
         <br />
         <label>
           Sex:
           <input type="radio" value="male" checked={sex === "male"} onChange={handleSexChange} />
-          male
+          Male
           <input type="radio" value="female" checked={sex === "female"} onChange={handleSexChange} />
           Female
         </label>
         <br />
-        <button type="submit">Start</button>
+        <button type="submit">Sign Up</button>
       </form>
     </div>
   );
