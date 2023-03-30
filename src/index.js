@@ -3,7 +3,7 @@ import axios from "axios";
 
 function App() {
   const [name, setName] = useState("");
-  const [age, setAge] = useState("");
+  const [age, setAge] = useState("18");
   const [sex, setSex] = useState("");
 
   const handleNameChange = (event) => {
@@ -21,10 +21,14 @@ function App() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    const locationData = await axios.get("/api/location");
+    const country = locationData.data.location;
+
     await axios.post("/api/users", {
       name,
       age,
       sex,
+      country,
     });
 
     setName("");
@@ -34,7 +38,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Sign Up</h1>
+      <h1>Sign Ups</h1>
       <form onSubmit={handleSubmit}>
         <label>
           Name:
@@ -43,13 +47,19 @@ function App() {
         <br />
         <label>
           Age:
-          <input type="number" value={age} onChange={handleAgeChange} />
+          <select value={age} onChange={handleAgeChange}>
+            {Array.from({ length: 82 }, (_, i) => 18 + i).map((value) => (
+              <option key={value} value={value}>
+                {value}
+              </option>
+            ))}
+          </select>
         </label>
         <br />
         <label>
           Sex:
           <input type="radio" value="male" checked={sex === "male"} onChange={handleSexChange} />
-          Male
+          male
           <input type="radio" value="female" checked={sex === "female"} onChange={handleSexChange} />
           Female
         </label>
