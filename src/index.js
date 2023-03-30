@@ -21,14 +21,10 @@ function App() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const locationData = await axios.get("/api/location");
-    const country = locationData.data.location;
-
     await axios.post("/api/users", {
       name,
       age,
       sex,
-      country,
     });
 
     setName("");
@@ -58,7 +54,7 @@ function App() {
           Female
         </label>
         <br />
-        <button type="submit">Sign Up</button>
+        <button type="submit">Start</button>
       </form>
     </div>
   );
